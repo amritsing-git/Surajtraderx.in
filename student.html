@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Student Dashboard — SURAJTRADERX</title><link rel="stylesheet" href="style.css"><link rel="icon" type="image/jpeg" href="assets/srtx-logo.jpg"></head><body data-page="">
+<div class="topbar">Educational platform • Trading involves risk • No profit guarantees</div>
+<header class="nav"><div class="container nav-inner"><a class="brand" href="index.html"><img class="brand-logo" src="assets/srtx-logo.jpg" alt="SURAJTRADERX logo"><span>SURAJTRADERX</span></a>
+<nav class="nav-links"><a href="index.html">Home</a><a href="curriculum.html">Curriculum</a><a href="pricing.html">Pricing</a><a href="contact.html">Contact</a><a class="nav-cta" href="login.html">Logout / Login</a></nav>
+<button class="hamb" aria-label="Open menu"><span></span><span></span><span></span></button></div>
+<div class="container mobile-menu"><a href="index.html">Home</a><a href="curriculum.html">Curriculum</a><a href="pricing.html">Pricing</a><a href="contact.html">Contact</a><a href="login.html">Logout / Login</a></div></header>
+<main><section class="section"><div class="container"><div class="dash-top"><div><span class="tag">Student area</span><h1 id="welcome">My learning</h1><p class="muted">Your approved course access, PDFs and Telegram resources.</p></div><button class="btn" onclick="signOut()">Logout</button></div><div id="state" class="grid grid-2"><div class="card"><h2>Checking access…</h2><p class="muted">Loading your enrollment.</p></div></div></div></section></main>
+<div data-footer></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script src="app.js"></script><script src="supabase.js"></script>
+<script>
+(async()=>{
+ const S=await initSB(),u=await requireUser();if(!S||!u)return;
+ const {data:p}=await S.from("profiles").select("full_name,email").eq("id",u.id).maybeSingle();
+ document.getElementById("welcome").textContent=`Welcome${p?.full_name?", "+p.full_name:""} 👋`;
+ const {data:enr,error}=await S.from("enrollments").select("*,courses(*)").eq("user_id",u.id).eq("status","active"),el=document.getElementById("state");
+ if(error){el.innerHTML=`<div class="card"><h2>Could not load your access</h2><p class="muted">${esc(error.message)}</p></div>`;return}
+ if(!enr?.length){el.innerHTML='<div class="card"><span class="tag">Locked</span><h2>Course not unlocked yet.</h2><p class="muted">Submit your UTR and wait for manual payment verification.</p><a class="btn btn-blue" href="payment.html">Go to Payment</a></div>';return}
+ el.innerHTML=enr.map(e=>{const premium=e.plan==="premium"||e.plan==="renewal",plan=e.plan==="premium"?"Premium ₹2,499":e.plan==="renewal"?"Premium Renewal ₹699":"Basic ₹1,499";return `<div class="card"><span class="tag">Unlocked • ${plan}</span><h2>${esc(e.courses?.title||"NIFTY 15-Minute Breakout Strategy")}</h2><p class="muted">${esc(e.courses?.description||"")}</p><div class="mini-list"><span>✓ Course material PDF 1</span>${e.plan==="premium"?"<span>✓ Premium PDF 2</span>":""}<span>✓ ${premium?"Telegram 1 + Premium Telegram 2":"Telegram learning channel"}</span>${premium?"<span>✓ Daily live doubt solving + mentorship</span>":"<span>✓ Weekly live doubt solving on Telegram</span>"}</div><a class="btn btn-dark" href="course.html?id=${encodeURIComponent(e.course_id)}">Open My Course →</a></div>`}).join("");
+})()
+</script></body></html>

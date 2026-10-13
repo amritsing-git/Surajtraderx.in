@@ -1,0 +1,3006 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Admin Panel — SURAJTRADERX</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/jpeg" href="assets/srtx-logo.jpg">
+
+<style>
+
+.admin-message{
+  margin:14px 0;
+  padding:14px 16px;
+  border-radius:14px;
+  font-size:14px;
+  line-height:1.5;
+}
+
+.admin-success{
+  background:#ecfdf3;
+  border:1px solid #b7ebca;
+  color:#087443;
+}
+
+.admin-error{
+  background:#fff1f2;
+  border:1px solid #fecdd3;
+  color:#be123c;
+}
+
+.admin-info{
+  background:#f4f7ff;
+  border:1px solid #dbe5ff;
+  color:#304a80;
+}
+
+.payment-row{
+  display:flex;
+  justify-content:space-between;
+  gap:18px;
+  align-items:center;
+  padding:18px 0;
+  border-bottom:1px solid #e8ebf1;
+}
+
+.payment-row:last-child{
+  border-bottom:0;
+}
+
+.payment-main{
+  min-width:0;
+}
+
+.payment-email{
+  font-weight:800;
+  word-break:break-word;
+}
+
+.payment-meta{
+  margin-top:6px;
+  font-size:13px;
+  color:#667085;
+  line-height:1.6;
+}
+
+.payment-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  flex-shrink:0;
+}
+
+.status-pill{
+  display:inline-flex;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+}
+
+.status-pending{
+  background:#fff7df;
+  color:#9a6700;
+}
+
+.status-approved{
+  background:#eafaf1;
+  color:#087443;
+}
+
+.status-rejected{
+  background:#fff0f1;
+  color:#b42318;
+}
+
+.empty-box{
+  text-align:center;
+  padding:32px 18px;
+  color:#667085;
+}
+
+.module-card{
+  border:1px solid #e6e9f0;
+  border-radius:18px;
+  padding:18px;
+  margin-top:12px;
+  background:#fff;
+}
+
+.module-head{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-start;
+}
+
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(10,18,35,.55);
+  backdrop-filter:blur(5px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+  padding:20px;
+}
+
+.modal-backdrop.show{
+  display:flex;
+}
+
+.admin-modal{
+  width:min(480px,100%);
+  background:#fff;
+  border-radius:24px;
+  padding:26px;
+  box-shadow:0 24px 70px rgba(0,0,0,.25);
+}
+
+.admin-modal h3{
+  margin:0 0 10px;
+  font-size:24px;
+}
+
+.admin-modal p{
+  margin:0;
+  color:#667085;
+  line-height:1.6;
+}
+
+.modal-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:24px;
+}
+
+.danger-btn{
+  background:#b42318 !important;
+  color:#fff !important;
+}
+
+.pricing-card{
+  border:1px solid #e2e8f0;
+  border-radius:18px;
+  padding:18px;
+  background:#fff;
+}
+
+.price-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.price-save{
+  margin-top:14px;
+}
+
+.price-input{
+  width:100%;
+}
+
+@media(max-width:700px){
+
+  .payment-row{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .payment-actions{
+    width:100%;
+  }
+
+  .payment-actions .btn{
+    flex:1;
+  }
+
+  .module-head{
+    flex-direction:column;
+  }
+
+  .modal-actions{
+    flex-direction:column-reverse;
+  }
+
+  .modal-actions .btn{
+    width:100%;
+  }
+
+  .price-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="topbar">
+  SURAJTRADERX ADMIN • Secure control center
+</div>
+
+
+<header class="nav">
+
+  <div class="container nav-inner">
+
+    <a class="brand" href="index.html">
+
+      <img
+        class="brand-logo"
+        src="assets/srtx-logo.jpg"
+        alt="SURAJTRADERX logo"
+      >
+
+      <span>SURAJTRADERX / ADMIN</span>
+
+    </a>
+
+
+    <div class="actions" style="margin:0">
+
+      <a
+        class="btn"
+        href="index.html"
+      >
+        View Site
+      </a>
+
+      <button
+        class="hamb"
+        aria-label="Menu"
+        type="button"
+      >
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<div class="dashboard">
+
+  <aside class="sidebar">
+
+    <div class="side-title">
+      Workspace
+    </div>
+
+    <a
+      class="side-link active"
+      href="#overview"
+    >
+      Overview
+    </a>
+
+    <a
+      class="side-link"
+      href="#payments"
+    >
+      Payment Requests
+    </a>
+
+    <a
+      class="side-link"
+      href="#curriculum"
+    >
+      Curriculum
+    </a>
+
+    <a
+      class="side-link"
+      href="#pricing"
+    >
+      Pricing
+    </a>
+
+    <a
+      class="side-link"
+      href="#students"
+    >
+      Students
+    </a>
+
+    <a
+      class="side-link"
+      href="#settings"
+    >
+      Settings
+    </a>
+
+  </aside>
+
+
+  <main class="dash-main">
+
+    <div id="app">
+
+      <div class="card">
+        Loading admin panel…
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+
+<div
+  class="modal-backdrop"
+  id="confirmModal"
+>
+
+  <div class="admin-modal">
+
+    <span
+      class="tag"
+      id="modalTag"
+    >
+      Confirm action
+    </span>
+
+    <h3 id="modalTitle">
+      Confirm
+    </h3>
+
+    <p id="modalText">
+      Are you sure?
+    </p>
+
+    <div class="modal-actions">
+
+      <button
+        class="btn"
+        type="button"
+        id="modalCancel"
+      >
+        Cancel
+      </button>
+
+      <button
+        class="btn btn-dark"
+        type="button"
+        id="modalConfirm"
+      >
+        Continue
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+<script src="supabase.js"></script>
+
+
+<script>
+
+let S = null;
+let ME = null;
+
+let pendingAction = null;
+
+/*
+  IMPORTANT:
+  Pricing is stored globally so savePricing()
+  can safely use PRICING.find().
+*/
+let PRICING = [];
+
+
+function safe(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function showMessage(type,text){
+
+  const old =
+    document.querySelector(".admin-message");
+
+  if(old){
+    old.remove();
+  }
+
+  const box =
+    document.createElement("div");
+
+  box.className =
+    "admin-message " +
+    (
+      type === "success"
+        ? "admin-success"
+        : type === "error"
+          ? "admin-error"
+          : "admin-info"
+    );
+
+  box.textContent = text;
+
+  const app =
+    document.getElementById("app");
+
+  if(app){
+    app.prepend(box);
+  }
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+function openModal(
+  title,
+  text,
+  confirmText,
+  type,
+  callback
+){
+
+  const modal =
+    document.getElementById("confirmModal");
+
+  const modalTitle =
+    document.getElementById("modalTitle");
+
+  const modalText =
+    document.getElementById("modalText");
+
+  const modalConfirm =
+    document.getElementById("modalConfirm");
+
+  const modalTag =
+    document.getElementById("modalTag");
+
+  modalTitle.textContent =
+    title;
+
+  modalText.textContent =
+    text;
+
+  modalConfirm.textContent =
+    confirmText;
+
+  modalTag.textContent =
+    type === "reject"
+      ? "Reject payment"
+      : "Approve payment";
+
+  modalConfirm.className =
+    type === "reject"
+      ? "btn danger-btn"
+      : "btn btn-dark";
+
+  pendingAction =
+    callback;
+
+  modal.classList.add("show");
+
+}
+
+
+function closeModal(){
+
+  document
+    .getElementById("confirmModal")
+    .classList.remove("show");
+
+  pendingAction = null;
+
+}
+
+
+document
+  .getElementById("modalCancel")
+  .addEventListener(
+    "click",
+    closeModal
+  );
+
+
+document
+  .getElementById("modalConfirm")
+  .addEventListener(
+    "click",
+    async function(){
+
+      if(!pendingAction){
+        closeModal();
+        return;
+      }
+
+      const action =
+        pendingAction;
+
+      closeModal();
+
+      await action();
+
+    }
+  );
+
+
+document
+  .getElementById("confirmModal")
+  .addEventListener(
+    "click",
+    function(e){
+
+      if(e.target === this){
+        closeModal();
+      }
+
+    }
+  );
+
+
+async function boot(){
+
+  S = await initSB();
+
+  if(!S){
+
+    document.getElementById("app").innerHTML = `
+
+      <div class="card">
+
+        <span class="tag">
+          Configuration
+        </span>
+
+        <h2>
+          Supabase is not configured.
+        </h2>
+
+        <p class="muted">
+          Check config.js and your Supabase project settings.
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  const sessionResult =
+    await S.auth.getSession();
+
+
+  if(
+    sessionResult.error ||
+    !sessionResult.data.session
+  ){
+
+    location.href = "login.html";
+
+    return;
+  }
+
+
+  ME =
+    sessionResult.data.session.user;
+
+
+  const adminResult =
+    await S
+      .from("admin_users")
+      .select("user_id")
+      .eq("user_id",ME.id)
+      .maybeSingle();
+
+
+  if(adminResult.error){
+
+    document.getElementById("app").innerHTML = `
+
+      <div class="card">
+
+        <span class="tag">
+          Admin access
+        </span>
+
+        <h2>
+          Could not verify admin access.
+        </h2>
+
+        <p class="muted">
+          ${safe(adminResult.error.message)}
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  if(!adminResult.data){
+
+    document.getElementById("app").innerHTML = `
+
+      <div class="card">
+
+        <span class="tag">
+          Access denied
+        </span>
+
+        <h2>
+          This account is not an admin.
+        </h2>
+
+        <p class="muted">
+          This page is protected by the admin_users table.
+        </p>
+
+        <a
+          class="btn btn-dark"
+          href="student.html"
+        >
+          Go to Student Area
+        </a>
+
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  await render();
+
+}
+
+
+async function render(){
+
+  const results =
+    await Promise.all([
+
+      S
+        .from("payment_requests")
+        .select("*")
+        .order(
+          "created_at",
+          {ascending:false}
+        ),
+
+      S
+        .from("profiles")
+        .select("*")
+        .order(
+          "created_at",
+          {ascending:false}
+        ),
+
+      S
+        .from("courses")
+        .select("*")
+        .eq(
+          "slug",
+          "nifty-15-minute-breakout"
+        )
+        .maybeSingle(),
+
+      S
+        .from("modules")
+        .select("*")
+        .order(
+          "position",
+          {ascending:true}
+        ),
+
+      S
+        .from("plan_pricing")
+        .select(
+          "plan,name,price,compare_at,active"
+        )
+        .order("plan")
+
+    ]);
+
+
+  const payResult = results[0];
+  const studentsResult = results[1];
+  const courseResult = results[2];
+  const modulesResult = results[3];
+  const pricingResult = results[4];
+
+
+  const payments =
+    payResult.data || [];
+
+  const students =
+    studentsResult.data || [];
+
+  const course =
+    courseResult.data;
+
+  const modules =
+    modulesResult.data || [];
+
+
+  /*
+    THIS IS THE IMPORTANT FIX.
+    PRICING is the global array.
+  */
+  PRICING =
+    pricingResult.data || [];
+
+
+  const pending =
+    payments.filter(
+      p => p.status === "pending"
+    ).length;
+
+
+  document.getElementById("app").innerHTML = `
+
+    <section id="overview">
+
+      <div class="dash-top">
+
+        <div>
+
+          <span class="tag">
+            Admin control center
+          </span>
+
+          <h1>
+            Good to see you.
+          </h1>
+
+          <p class="muted">
+            Manage payments, curriculum, pricing and students.
+          </p>
+
+        </div>
+
+
+        <div class="actions">
+
+          <a
+            class="btn"
+            href="index.html"
+          >
+            View Site ↗
+          </a>
+
+          <button
+            class="btn btn-dark"
+            id="logoutBtn"
+            type="button"
+          >
+            Logout
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="stat-grid">
+
+        <div class="stat">
+
+          <span class="muted">
+            Payment requests
+          </span>
+
+          <b>
+            ${payments.length}
+          </b>
+
+        </div>
+
+
+        <div class="stat">
+
+          <span class="muted">
+            Pending
+          </span>
+
+          <b>
+            ${pending}
+          </b>
+
+        </div>
+
+
+        <div class="stat">
+
+          <span class="muted">
+            Curriculum modules
+          </span>
+
+          <b>
+            ${modules.length}
+          </b>
+
+        </div>
+
+
+        <div class="stat">
+
+          <span class="muted">
+            Students
+          </span>
+
+          <b>
+            ${students.length}
+          </b>
+
+        </div>
+
+      </div>
+
+    </section>
+        <section
+      id="payments"
+      class="admin-section"
+    >
+
+      <span class="tag">
+        Payments
+      </span>
+
+      <h2>
+        Payment Requests
+      </h2>
+
+      <p class="muted">
+        Verify the actual UPI/bank transaction and exact amount
+        before approving.
+      </p>
+
+
+      <div
+        class="notice warn"
+        style="margin:16px 0"
+      >
+
+        <b>
+          Important:
+        </b>
+
+        UTR text alone is not payment proof.
+        Approve only after checking the actual transaction.
+
+      </div>
+
+
+      <div class="card">
+
+        ${
+          payments.length
+          ?
+
+          payments.map(payment => {
+
+            const statusClass =
+              payment.status === "approved"
+                ? "status-approved"
+                : payment.status === "rejected"
+                  ? "status-rejected"
+                  : "status-pending";
+
+
+            /*
+              FIX:
+              Use global PRICING array.
+              Never use pricing.find().
+            */
+
+            const priceRow =
+              PRICING.find(
+                x => x.plan === payment.plan
+              );
+
+
+            const planLabel =
+              priceRow
+
+                ? `${priceRow.name} — ₹${Number(
+                    priceRow.price ||
+                    payment.amount ||
+                    0
+                  ).toLocaleString("en-IN")}`
+
+                : payment.plan;
+
+
+            return `
+
+              <div class="payment-row">
+
+                <div class="payment-main">
+
+                  <div class="payment-email">
+
+                    ${safe(
+                      payment.email ||
+                      "No email"
+                    )}
+
+                  </div>
+
+
+                  <div class="payment-meta">
+
+                    <b>
+                      ${safe(planLabel)}
+                    </b>
+
+                    <br>
+
+                    Amount:
+                    ₹${Number(
+                      payment.amount || 0
+                    ).toLocaleString("en-IN")}
+
+                    <br>
+
+                    UTR:
+                    <strong>
+                      ${safe(
+                        payment.utr || "—"
+                      )}
+                    </strong>
+
+                    <br>
+
+                    Date:
+                    ${safe(
+                      payment.paid_at || "—"
+                    )}
+
+                  </div>
+
+
+                  <div style="margin-top:9px">
+
+                    <span
+                      class="status-pill ${statusClass}"
+                    >
+                      ${safe(
+                        payment.status
+                      )}
+                    </span>
+
+                  </div>
+
+                </div>
+
+
+                <div class="payment-actions">
+
+                  ${
+                    payment.status === "pending"
+
+                    ?
+
+                    `
+
+                      <button
+                        class="btn btn-dark"
+                        type="button"
+                        onclick="requestApprove(
+                          '${safe(payment.id)}',
+                          '${safe(payment.user_id)}',
+                          '${safe(payment.plan)}',
+                          '${safe(payment.amount)}'
+                        )"
+                      >
+                        Approve
+                      </button>
+
+
+                      <button
+                        class="btn"
+                        type="button"
+                        onclick="requestReject(
+                          '${safe(payment.id)}'
+                        )"
+                      >
+                        Reject
+                      </button>
+
+                    `
+
+                    :
+
+                    `
+
+                      <span class="small muted">
+                        No action
+                      </span>
+
+                    `
+
+                  }
+
+                </div>
+
+              </div>
+
+            `;
+
+          }).join("")
+
+          :
+
+          `
+
+            <div class="empty-box">
+
+              <h3>
+                No payment requests
+              </h3>
+
+              <p>
+                New UTR submissions will appear here.
+              </p>
+
+            </div>
+
+          `
+
+        }
+
+      </div>
+
+    </section>
+
+
+
+    <section
+      id="curriculum"
+      class="admin-section"
+    >
+
+      <span class="tag">
+        Curriculum
+      </span>
+
+      <h2>
+        Manage Curriculum
+      </h2>
+
+
+      <div class="notice">
+
+        <b>
+          Fixed course:
+        </b>
+
+        NIFTY 15-Minute Breakout Strategy
+
+        <br>
+
+        <span class="small muted">
+
+          Admin cannot create new courses.
+          Only curriculum modules and lessons can be added.
+
+        </span>
+
+      </div>
+
+
+      <div id="curriculumMessage"></div>
+
+
+      <div
+        class="grid grid-2"
+        style="margin-top:18px"
+      >
+
+
+        <div class="card">
+
+          <span class="tag">
+            Curriculum Module
+          </span>
+
+          <h3>
+            Add Curriculum Module
+          </h3>
+
+          <p class="small muted">
+            Module ka naam aur usme kya kaam hoga likho.
+          </p>
+
+
+          <form
+            id="moduleForm"
+            class="form"
+          >
+
+            <div class="field">
+
+              <label>
+                Module name
+              </label>
+
+              <input
+                id="moduleTitle"
+                required
+                placeholder="Example: Market Structure"
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                Module work / description
+              </label>
+
+              <textarea
+                id="moduleWork"
+                rows="5"
+                required
+                placeholder="Is module mein student kya seekhega..."
+              ></textarea>
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                Position
+              </label>
+
+              <input
+                id="modulePosition"
+                type="number"
+                min="1"
+                value="1"
+                required
+              >
+
+            </div>
+
+
+            <button
+              class="btn btn-blue"
+              type="submit"
+            >
+              Add Module
+            </button>
+
+          </form>
+
+        </div>
+
+
+
+        <div class="card">
+
+          <span class="tag">
+            Lesson
+          </span>
+
+          <h3>
+            Add Lesson
+          </h3>
+
+          <p class="small muted">
+            Kisi existing module ke andar lesson add karo.
+          </p>
+
+
+          <form
+            id="lessonForm"
+            class="form"
+          >
+
+            <div class="field">
+
+              <label>
+                Select module
+              </label>
+
+              <select
+                id="lessonModule"
+                required
+              >
+
+                <option value="">
+                  Select module
+                </option>
+
+                ${
+                  modules.map(
+                    module => `
+
+                      <option
+                        value="${safe(module.id)}"
+                      >
+                        ${safe(module.title)}
+                      </option>
+
+                    `
+                  ).join("")
+                }
+
+              </select>
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                Lesson name
+              </label>
+
+              <input
+                id="lessonTitle"
+                required
+                placeholder="Example: Identifying a Breakout"
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                Lesson content / work
+              </label>
+
+              <textarea
+                id="lessonContent"
+                rows="5"
+                placeholder="Lesson mein kya sikhaya jayega..."
+              ></textarea>
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                Video URL (optional)
+              </label>
+
+              <input
+                id="lessonVideo"
+                type="url"
+                placeholder="https://..."
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                Position
+              </label>
+
+              <input
+                id="lessonPosition"
+                type="number"
+                min="1"
+                value="1"
+                required
+              >
+
+            </div>
+
+
+            <button
+              class="btn btn-blue"
+              type="submit"
+            >
+              Add Lesson
+            </button>
+
+          </form>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="card"
+        style="margin-top:18px"
+      >
+
+        <span class="tag">
+          Existing curriculum
+        </span>
+
+        <h3>
+          Current Modules
+        </h3>
+
+
+        ${
+          modules.length
+
+          ?
+
+          modules.map(
+            module => `
+
+              <div class="module-card">
+
+                <div class="module-head">
+
+                  <div>
+
+                    <h3 style="margin:0">
+
+                      ${safe(
+                        module.position
+                      )}.
+
+                      ${safe(
+                        module.title
+                      )}
+
+                    </h3>
+
+                    <p class="small muted">
+
+                      Module ID:
+                      ${safe(module.id)}
+
+                    </p>
+
+                  </div>
+
+                </div>
+
+
+                <div class="small muted">
+                  Curriculum module
+                </div>
+
+              </div>
+
+            `
+          ).join("")
+
+          :
+
+          `
+
+            <div class="empty-box">
+
+              No modules found.
+
+            </div>
+
+          `
+
+        }
+
+      </div>
+
+    </section>
+
+
+
+    <section
+      id="students"
+      class="admin-section"
+    >
+
+      <span class="tag">
+        Students
+      </span>
+
+      <h2>
+        Registered Students
+      </h2>
+
+
+      <div class="card">
+
+        ${
+          students.length
+
+          ?
+
+          `
+
+          <div class="table-wrap">
+
+            <table class="table">
+
+              <thead>
+
+                <tr>
+
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Age</th>
+                  <th>WhatsApp</th>
+                  <th>Telegram</th>
+                  <th>Joined</th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody>
+
+                ${
+                  students.map(
+                    student => `
+
+                      <tr>
+
+                        <td>
+
+                          <b>
+                            ${safe(
+                              student.full_name ||
+                              "—"
+                            )}
+                          </b>
+
+                        </td>
+
+                        <td>
+                          ${safe(
+                            student.email ||
+                            "—"
+                          )}
+                        </td>
+
+                        <td>
+                          ${safe(
+                            student.age ||
+                            "—"
+                          )}
+                        </td>
+
+                        <td>
+                          ${safe(
+                            student.phone ||
+                            "—"
+                          )}
+                        </td>
+
+                        <td>
+                          ${safe(
+                            student.telegram_username ||
+                            "—"
+                          )}
+                        </td>
+
+                        <td>
+
+                          ${
+                            student.created_at
+
+                            ?
+
+                            new Date(
+                              student.created_at
+                            ).toLocaleDateString(
+                              "en-IN"
+                            )
+
+                            :
+
+                            "—"
+                          }
+
+                        </td>
+
+                      </tr>
+
+                    `
+                  ).join("")
+                }
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+          `
+
+          :
+
+          `
+
+          <div class="empty-box">
+
+            <h3>
+              No students yet
+            </h3>
+
+            <p>
+              Registered students will appear here.
+            </p>
+
+          </div>
+
+          `
+
+        }
+
+      </div>
+
+    </section>
+        <section
+      id="pricing"
+      class="admin-section"
+    >
+
+      <span class="tag">
+        Pricing
+      </span>
+
+      <h2>
+        Course Pricing
+      </h2>
+
+      <p class="muted">
+
+        Yahin se selling price aur original price
+        increase/decrease kar sakte ho.
+
+        Pricing page par discount show hoga,
+        payment page par sirf actual payable amount show hoga.
+
+      </p>
+
+
+      <div
+        class="notice"
+        style="margin-top:16px"
+      >
+
+        <b>
+          Example:
+        </b>
+
+        Original ₹3,499 → Selling ₹2,999
+
+        <br>
+
+        Pricing page:
+        <s>₹3,499</s> ₹2,999
+
+        <br>
+
+        Payment page:
+        ₹2,999 payable
+
+      </div>
+
+
+      <div
+        class="grid grid-2"
+        style="margin-top:18px"
+      >
+
+        ${
+          [
+            "basic",
+            "premium",
+            "renewal"
+          ]
+          .map(function(planKey){
+
+            const defaults = {
+
+              basic:{
+                name:
+                  "Basic — Weekly Live Doubt Solving",
+
+                price:
+                  1499,
+
+                compare_at:
+                  1799
+
+              },
+
+              premium:{
+                name:
+                  "Premium — Daily Live Doubt Solving + Mentorship",
+
+                price:
+                  2499,
+
+                compare_at:
+                  3499
+
+              },
+
+              renewal:{
+                name:
+                  "Premium Renewal",
+
+                price:
+                  699,
+
+                compare_at:
+                  799
+
+              }
+
+            };
+
+
+            /*
+              IMPORTANT:
+              PRICING.find()
+              not pricing.find()
+            */
+
+            const row =
+              PRICING.find(
+                x => x.plan === planKey
+              )
+              ||
+              {
+                plan:
+                  planKey,
+
+                ...defaults[planKey],
+
+                active:
+                  true
+              };
+
+
+            return `
+
+              <div class="pricing-card">
+
+                <span class="tag">
+
+                  ${safe(
+                    planKey.toUpperCase()
+                  )}
+
+                </span>
+
+
+                <h3
+                  style="margin-top:10px"
+                >
+
+                  ${safe(
+                    row.name
+                  )}
+
+                </h3>
+
+
+                <div
+                  class="price-grid"
+                  style="margin-top:16px"
+                >
+
+                  <div class="field">
+
+                    <label>
+                      Selling Price (₹)
+                    </label>
+
+                    <input
+                      class="price-input"
+                      data-plan="${planKey}"
+                      data-field="price"
+                      type="number"
+                      min="0"
+                      step="1"
+                      value="${safe(
+                        row.price
+                      )}"
+                    >
+
+                  </div>
+
+
+                  <div class="field">
+
+                    <label>
+                      Original Price (₹)
+                    </label>
+
+                    <input
+                      class="price-input"
+                      data-plan="${planKey}"
+                      data-field="compare_at"
+                      type="number"
+                      min="0"
+                      step="1"
+                      value="${safe(
+                        row.compare_at
+                      )}"
+                    >
+
+                  </div>
+
+                </div>
+
+
+                <label
+                  style="
+                    display:flex;
+                    gap:9px;
+                    align-items:center;
+                    margin-top:12px;
+                    font-weight:750
+                  "
+                >
+
+                  <input
+                    class="price-active"
+                    data-plan="${planKey}"
+                    type="checkbox"
+                    ${
+                      row.active
+                        ? "checked"
+                        : ""
+                    }
+                  >
+
+                  Active
+
+                </label>
+
+              </div>
+
+            `;
+
+          })
+          .join("")
+        }
+
+      </div>
+
+
+      <div
+        class="card"
+        style="margin-top:16px"
+      >
+
+        <p class="small muted">
+
+          Original price should normally be
+          equal to or higher than selling price.
+
+        </p>
+
+
+        <button
+          class="btn btn-blue price-save"
+          id="savePricingBtn"
+          type="button"
+        >
+
+          Save Pricing
+
+        </button>
+
+      </div>
+
+    </section>
+
+
+
+    <section
+      id="settings"
+      class="admin-section"
+    >
+
+      <span class="tag">
+        Settings
+      </span>
+
+      <h2>
+        Control Center Settings
+      </h2>
+
+
+      <div class="grid grid-2">
+
+
+        <div class="card">
+
+          <h3>
+            Payment Settings
+          </h3>
+
+
+          <p>
+
+            <b>
+              UPI ID:
+            </b>
+
+            ${safe(
+              SRTX_CONFIG.UPI_ID
+            )}
+
+          </p>
+
+
+          <p>
+
+            <b>
+              Support:
+            </b>
+
+            ${safe(
+              SRTX_CONFIG.SUPPORT_PHONE
+            )}
+
+          </p>
+
+
+          <p>
+
+            <b>
+              Pricing:
+            </b>
+
+            Managed from the Pricing section.
+
+          </p>
+
+
+          <p class="small muted">
+
+            Selling price and original/compare-at
+            price are stored in Supabase.
+
+          </p>
+
+        </div>
+
+
+
+        <div class="card">
+
+          <h3>
+            Change Admin Password
+          </h3>
+
+
+          <form
+            id="passwordForm"
+            class="form"
+          >
+
+            <div class="field">
+
+              <label>
+                New password
+              </label>
+
+              <input
+                id="newPassword"
+                type="password"
+                minlength="8"
+                required
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                Confirm password
+              </label>
+
+              <input
+                id="confirmPassword"
+                type="password"
+                minlength="8"
+                required
+              >
+
+            </div>
+
+
+            <button
+              class="btn btn-dark"
+              type="submit"
+            >
+
+              Update Password
+
+            </button>
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  `;
+
+
+  document
+    .getElementById("logoutBtn")
+    .addEventListener(
+      "click",
+      async function(){
+
+        await signOut();
+
+      }
+    );
+
+
+  document
+    .getElementById("moduleForm")
+    .addEventListener(
+      "submit",
+      addModule
+    );
+
+
+  document
+    .getElementById("lessonForm")
+    .addEventListener(
+      "submit",
+      addLesson
+    );
+
+
+  document
+    .getElementById("savePricingBtn")
+    .addEventListener(
+      "click",
+      savePricing
+    );
+
+
+  document
+    .getElementById("passwordForm")
+    .addEventListener(
+      "submit",
+      changePassword
+    );
+
+}
+
+
+
+/* =========================================================
+   SAVE PRICING
+========================================================= */
+
+async function savePricing(){
+
+  const btn =
+    document.getElementById(
+      "savePricingBtn"
+    );
+
+
+  btn.disabled = true;
+
+  btn.textContent =
+    "Saving…";
+
+
+  try{
+
+    const plans = [
+      "basic",
+      "premium",
+      "renewal"
+    ];
+
+
+    for(
+      const plan of plans
+    ){
+
+      const priceInput =
+        document.querySelector(
+          `.price-input[data-plan="${plan}"][data-field="price"]`
+        );
+
+
+      const compareInput =
+        document.querySelector(
+          `.price-input[data-plan="${plan}"][data-field="compare_at"]`
+        );
+
+
+      const activeInput =
+        document.querySelector(
+          `.price-active[data-plan="${plan}"]`
+        );
+
+
+      const price =
+        Number(
+          priceInput.value
+        );
+
+
+      const compareAt =
+        Number(
+          compareInput.value
+        );
+
+
+      const active =
+        activeInput.checked;
+
+
+      if(
+        !Number.isFinite(price) ||
+        price < 0
+      ){
+
+        throw new Error(
+          `${plan} selling price is invalid.`
+        );
+
+      }
+
+
+      if(
+        !Number.isFinite(compareAt) ||
+        compareAt < 0
+      ){
+
+        throw new Error(
+          `${plan} original price is invalid.`
+        );
+
+      }
+
+
+      if(
+        compareAt > 0 &&
+        compareAt < price
+      ){
+
+        throw new Error(
+          `${plan} original price must be equal to or higher than selling price.`
+        );
+
+      }
+
+
+      /*
+        FIX:
+        Always search the global PRICING array.
+      */
+
+      const existing =
+        PRICING.find(
+          x => x.plan === plan
+        );
+
+
+      const defaults = {
+
+        basic:
+          "Basic — Weekly Live Doubt Solving",
+
+        premium:
+          "Premium — Daily Live Doubt Solving + Mentorship",
+
+        renewal:
+          "Premium Renewal"
+
+      };
+
+
+      const result =
+        await S
+          .from("plan_pricing")
+          .upsert({
+
+            plan:
+              plan,
+
+            name:
+              existing?.name ||
+              defaults[plan],
+
+            price:
+              price,
+
+            compare_at:
+              compareAt,
+
+            active:
+              active,
+
+            updated_at:
+              new Date().toISOString()
+
+          },{
+            onConflict:
+              "plan"
+          });
+
+
+      if(result.error){
+
+        throw new Error(
+          result.error.message
+        );
+
+      }
+
+    }
+
+
+    showMessage(
+      "success",
+      "Pricing updated successfully. Pricing and payment pages will use the new prices."
+    );
+
+
+    await render();
+
+
+  }catch(error){
+
+    showMessage(
+      "error",
+      "Pricing update failed: " +
+      (
+        error.message ||
+        "Unknown error"
+      )
+    );
+
+  }finally{
+
+    btn.disabled = false;
+
+    btn.textContent =
+      "Save Pricing";
+
+  }
+
+}
+
+
+
+/* =========================================================
+   APPROVE REQUEST
+========================================================= */
+
+async function requestApprove(
+  id,
+  userId,
+  plan,
+  amount
+){
+
+  const priceResult =
+    await S
+      .from("plan_pricing")
+      .select(
+        "name,price"
+      )
+      .eq(
+        "plan",
+        plan
+      )
+      .maybeSingle();
+
+
+  if(
+    priceResult.error ||
+    !priceResult.data
+  ){
+
+    showMessage(
+      "error",
+      "Pricing for this plan could not be loaded."
+    );
+
+    return;
+  }
+
+
+  const expected =
+    Number(
+      priceResult.data.price
+    );
+
+
+  if(
+    Number(amount) !== expected
+  ){
+
+    showMessage(
+      "error",
+
+      `Plan amount mismatch. Current selling price is ₹${expected.toLocaleString("en-IN")}, but this request is ₹${Number(amount).toLocaleString("en-IN")}.`
+    );
+
+    return;
+  }
+
+
+  const planText =
+    `${priceResult.data.name} — ₹${expected.toLocaleString("en-IN")}`;
+
+
+  openModal(
+
+    "Approve Payment",
+
+    "Confirm that you have verified the actual UPI/bank transaction and exact amount for " +
+    planText +
+    ". UTR text alone is not payment proof.",
+
+    "Approve Payment",
+
+    "approve",
+
+    async function(){
+
+      await approvePayment(
+        id,
+        userId,
+        plan,
+        amount
+      );
+
+    }
+
+  );
+
+          }
+  async function approvePayment(
+  id,
+  userId,
+  plan,
+  amount
+){
+
+  try{
+
+    const courseResult =
+      await S
+        .from("courses")
+        .select("id")
+        .eq(
+          "slug",
+          "nifty-15-minute-breakout"
+        )
+        .maybeSingle();
+
+
+    if(courseResult.error){
+
+      showMessage(
+        "error",
+        courseResult.error.message
+      );
+
+      return;
+    }
+
+
+    const course =
+      courseResult.data;
+
+
+    if(!course){
+
+      showMessage(
+        "error",
+        "Main course was not found in the database."
+      );
+
+      return;
+    }
+
+
+    const existingResult =
+      await S
+        .from("enrollments")
+        .select("*")
+        .eq(
+          "user_id",
+          userId
+        )
+        .eq(
+          "course_id",
+          course.id
+        )
+        .maybeSingle();
+
+
+    if(existingResult.error){
+
+      showMessage(
+        "error",
+        "Could not check existing enrollment: " +
+        existingResult.error.message
+      );
+
+      return;
+    }
+
+
+    const existing =
+      existingResult.data;
+
+
+    /*
+      Renewal is only for existing
+      active Premium/Renewal students.
+    */
+
+    if(plan === "renewal"){
+
+      if(
+        !existing ||
+        existing.status !== "active" ||
+        ![
+          "premium",
+          "renewal"
+        ].includes(
+          existing.plan
+        )
+      ){
+
+        showMessage(
+          "error",
+          "₹699 renewal is only available for an existing active Premium student."
+        );
+
+        return;
+      }
+
+    }
+
+
+    const paymentUpdate =
+      await S
+        .from("payment_requests")
+        .update({
+
+          status:
+            "approved",
+
+          approved_by:
+            ME.id,
+
+          approved_at:
+            new Date().toISOString()
+
+        })
+
+        .eq(
+          "id",
+          id
+        )
+
+        .eq(
+          "status",
+          "pending"
+        );
+
+
+    if(paymentUpdate.error){
+
+      showMessage(
+        "error",
+        "Payment approval failed: " +
+        paymentUpdate.error.message
+      );
+
+      return;
+    }
+
+
+    /*
+      Renewal never downgrades Premium.
+    */
+
+    const finalPlan =
+      plan === "renewal"
+        ? "premium"
+        : plan;
+
+
+    const enrollmentResult =
+      await S
+        .from("enrollments")
+        .upsert({
+
+          user_id:
+            userId,
+
+          course_id:
+            course.id,
+
+          plan:
+            finalPlan,
+
+          status:
+            "active",
+
+          amount_paid:
+            Number(amount),
+
+          payment_request_id:
+            id
+
+        },{
+          onConflict:
+            "user_id,course_id"
+        });
+
+
+    if(enrollmentResult.error){
+
+      /*
+        Roll payment back if enrollment
+        could not be created.
+      */
+
+      await S
+        .from("payment_requests")
+        .update({
+
+          status:
+            "pending",
+
+          approved_by:
+            null,
+
+          approved_at:
+            null
+
+        })
+        .eq(
+          "id",
+          id
+        );
+
+
+      showMessage(
+        "error",
+        "Enrollment could not be created: " +
+        enrollmentResult.error.message
+      );
+
+      return;
+    }
+
+
+    showMessage(
+      "success",
+      "Payment approved successfully. The student's course enrollment is now active."
+    );
+
+
+    await render();
+
+
+  }catch(error){
+
+    showMessage(
+      "error",
+      error.message ||
+      "Something went wrong while approving the payment."
+    );
+
+  }
+
+}
+
+
+
+/* =========================================================
+   REJECT PAYMENT
+========================================================= */
+
+function requestReject(id){
+
+  openModal(
+
+    "Reject Payment",
+
+    "Are you sure you want to reject this payment request? The student will not receive course access from this request.",
+
+    "Reject Payment",
+
+    "reject",
+
+    async function(){
+
+      await rejectPayment(id);
+
+    }
+
+  );
+
+}
+
+
+async function rejectPayment(id){
+
+  try{
+
+    const result =
+      await S
+        .from("payment_requests")
+        .update({
+
+          status:
+            "rejected",
+
+          approved_by:
+            ME.id,
+
+          approved_at:
+            new Date().toISOString()
+
+        })
+        .eq(
+          "id",
+          id
+        )
+        .eq(
+          "status",
+          "pending"
+        );
+
+
+    if(result.error){
+
+      showMessage(
+        "error",
+        "Payment rejection failed: " +
+        result.error.message
+      );
+
+      return;
+    }
+
+
+    showMessage(
+      "success",
+      "Payment request rejected successfully."
+    );
+
+
+    await render();
+
+
+  }catch(error){
+
+    showMessage(
+      "error",
+      error.message ||
+      "Something went wrong while rejecting the payment."
+    );
+
+  }
+
+}
+
+
+
+/* =========================================================
+   ADD MODULE
+========================================================= */
+
+async function addModule(e){
+
+  e.preventDefault();
+
+
+  const title =
+    document
+      .getElementById(
+        "moduleTitle"
+      )
+      .value
+      .trim();
+
+
+  const work =
+    document
+      .getElementById(
+        "moduleWork"
+      )
+      .value
+      .trim();
+
+
+  const position =
+    Number(
+      document
+        .getElementById(
+          "modulePosition"
+        )
+        .value
+    );
+
+
+  if(
+    !title ||
+    !work
+  ){
+
+    showMessage(
+      "error",
+      "Module name and work/description are required."
+    );
+
+    return;
+  }
+
+
+  const courseResult =
+    await S
+      .from("courses")
+      .select("id")
+      .eq(
+        "slug",
+        "nifty-15-minute-breakout"
+      )
+      .maybeSingle();
+
+
+  if(courseResult.error){
+
+    showMessage(
+      "error",
+      courseResult.error.message
+    );
+
+    return;
+  }
+
+
+  if(!courseResult.data){
+
+    showMessage(
+      "error",
+      "Fixed NIFTY course was not found."
+    );
+
+    return;
+  }
+
+
+  const moduleResult =
+    await S
+      .from("modules")
+      .insert({
+
+        course_id:
+          courseResult.data.id,
+
+        title:
+          title,
+
+        position:
+          position
+
+      })
+      .select()
+      .single();
+
+
+  if(moduleResult.error){
+
+    showMessage(
+      "error",
+      "Could not add module: " +
+      moduleResult.error.message
+    );
+
+    return;
+  }
+
+
+  const overviewResult =
+    await S
+      .from("lessons")
+      .insert({
+
+        module_id:
+          moduleResult.data.id,
+
+        title:
+          "Module Overview",
+
+        content:
+          work,
+
+        position:
+          1
+
+      });
+
+
+  if(overviewResult.error){
+
+    showMessage(
+      "error",
+      "Module was created but its work description could not be saved: " +
+      overviewResult.error.message
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    "success",
+    "Curriculum module added successfully."
+  );
+
+
+  await render();
+
+}
+
+
+
+/* =========================================================
+   ADD LESSON
+========================================================= */
+
+async function addLesson(e){
+
+  e.preventDefault();
+
+
+  const moduleId =
+    document
+      .getElementById(
+        "lessonModule"
+      )
+      .value;
+
+
+  const title =
+    document
+      .getElementById(
+        "lessonTitle"
+      )
+      .value
+      .trim();
+
+
+  const content =
+    document
+      .getElementById(
+        "lessonContent"
+      )
+      .value
+      .trim();
+
+
+  const video =
+    document
+      .getElementById(
+        "lessonVideo"
+      )
+      .value
+      .trim();
+
+
+  const position =
+    Number(
+      document
+        .getElementById(
+          "lessonPosition"
+        )
+        .value
+    );
+
+
+  if(
+    !moduleId ||
+    !title
+  ){
+
+    showMessage(
+      "error",
+      "Select a module and enter a lesson name."
+    );
+
+    return;
+  }
+
+
+  const result =
+    await S
+      .from("lessons")
+      .insert({
+
+        module_id:
+          moduleId,
+
+        title:
+          title,
+
+        content:
+          content,
+
+        video_url:
+          video || null,
+
+        position:
+          position
+
+      });
+
+
+  if(result.error){
+
+    showMessage(
+      "error",
+      "Could not add lesson: " +
+      result.error.message
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    "success",
+    "Lesson added successfully."
+  );
+
+
+  await render();
+
+}
+
+
+
+/* =========================================================
+   CHANGE ADMIN PASSWORD
+========================================================= */
+
+async function changePassword(e){
+
+  e.preventDefault();
+
+
+  const password =
+    document
+      .getElementById(
+        "newPassword"
+      )
+      .value;
+
+
+  const confirm =
+    document
+      .getElementById(
+        "confirmPassword"
+      )
+      .value;
+
+
+  if(password !== confirm){
+
+    showMessage(
+      "error",
+      "Passwords do not match."
+    );
+
+    return;
+  }
+
+
+  if(password.length < 8){
+
+    showMessage(
+      "error",
+      "Password must be at least 8 characters."
+    );
+
+    return;
+  }
+
+
+  const result =
+    await S.auth.updateUser({
+
+      password:
+        password
+
+    });
+
+
+  if(result.error){
+
+    showMessage(
+      "error",
+      "Password update failed: " +
+      result.error.message
+    );
+
+    return;
+  }
+
+
+  document
+    .getElementById(
+      "passwordForm"
+    )
+    .reset();
+
+
+  showMessage(
+    "success",
+    "Admin password updated successfully."
+  );
+
+}
+
+
+/* START */
+
+boot();
+
+</script>
+
+</body>
+</html>
